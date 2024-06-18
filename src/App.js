@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
 
+//0ab57087d92b4d4292af2bb48b47bf60
+//https://newsapi.org/v2/top-headlines?country=in&apiKey=0ab57087d92b4d4292af2bb48b47bf60
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          "https://newsapi.org/v2/top-headlines?country=in&apiKey=0ab57087d92b4d4292af2bb48b47bf60"
+        );
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+  return <div className="App"></div>;
 }
 
 export default App;
