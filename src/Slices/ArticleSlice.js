@@ -1,7 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  articles: [],
+  articles: {
+    top: [],
+    world: [],
+    business: [],
+    politics: [],
+    technology: [],
+    entertainment: [],
+    sports: [],
+    science: [],
+    health: [],
+  },
 };
 
 const ArticleSlice = createSlice({
@@ -9,7 +19,8 @@ const ArticleSlice = createSlice({
   initialState: initialState,
   reducers: {
     addArticles: (state, action) => {
-      state.articles = [...state.articles, ...action.payload];
+      const { category, payload } = action.payload;
+      state.articles[category] = [...state.articles[category], ...payload];
     },
   },
 });
