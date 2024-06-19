@@ -1,10 +1,4 @@
-.homepage-wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1rem;
-}
-
-.article-wrapper {
+/* .article-wrapper {
   height: 450px;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -19,4 +13,4 @@ img {
   width: 20rem;
   height: 12rem;
   object-fit: cover;
-}
+} */

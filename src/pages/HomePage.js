@@ -1,339 +1,306 @@
 import React, { useState } from "react";
 import "./HomePage.css";
-//0ab57087d92b4d4292af2bb48b47bf60
-//https://newsapi.org/v2/top-headlines?country=in&apiKey=0ab57087d92b4d4292af2bb48b47bf60
+import { useFetch } from "../Utils";
+// https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165
+const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
+const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&country=in`;
+// `https://newsdata.io/api/1/news?apikey=${api_key}&language=en&country=${country}&category=${category}`;
 const yeah = [
   {
-    source: {
-      id: null,
-      name: "Hindustan Times",
-    },
-    author: "Neha Yadav",
-    title: "10 stunning images of cosmos shared by NASA - Hindustan Times",
-    description: "10 stunning images of cosmos shared by NASA",
-    url: "https://www.hindustantimes.com/web-stories/in-focus/10-stunning-images-of-cosmos-shared-by-nasa-101718622503052.html",
-    urlToImage: null,
-    publishedAt: "2024-06-17T12:30:03Z",
-    content:
-      "By Neha YadavPublished Jun 17, 2024\r\nHindustan TimesIn FocusPhoto Credits: Instagram/nasahubble",
-  },
-  {
-    source: {
-      id: null,
-      name: "Business Standard",
-    },
-    author: "Nandini Singh",
+    article_id: "1a31a5e589ea14bda499fa97ab5775df",
     title:
-      "Spread of deadly 'flesh-eating bacteria' in Japan raises global concerns - Business Standard",
-    description:
-      "Flesh-eating bacteria Japan: Data from Japan's National Institute of Infectious Diseases shows an alarming increase with nearly 1,000 reported cases of Streptococcal Toxic Shock Syndrome this year, exceeding last year's total",
-    url: "https://www.business-standard.com/world-news/spread-of-deadly-flesh-eating-bacteria-in-japan-raises-global-concerns-124061700622_1.html",
-    urlToImage:
-      "https://bsmedia.business-standard.com/_media/bs/img/article/2024-06/17/thumb/featurecrop/400X400/1718626748-9565.jpg",
-    publishedAt: "2024-06-17T12:24:28Z",
-    content:
-      "Data from Japan's National Institute of Infectious Diseases shows an alarming increase with nearly 1,000 reported cases of Streptococcal Toxic Shock Syndrome this year, exceeding last year's total\r\nP… [+3367 chars]",
-  },
-  {
-    source: {
-      id: null,
-      name: "Hindustan Times",
-    },
-    author: "Anurag Bohra",
-    title:
-      "Alia Bhatt posts cute picture of Raha walking with Ranbir Kapoor, internet reacts: ‘Papa’s Dilbaro’ - Hindustan Times",
-    description:
-      "Alia Bhatt and Ranbir Kapoor welcomed their baby daughter Raha in November 2022. The Jigra actor recently shared a cute pic of her toddler. | Bollywood",
-    url: "https://www.hindustantimes.com/entertainment/bollywood/alia-bhatt-posts-cute-picture-of-raha-walking-with-ranbir-kapoor-internet-reacts-101718622083117.html",
-    urlToImage:
-      "https://www.hindustantimes.com/ht-img/img/2024/06/17/1600x900/raha_walking_ranbir_alia_1718625048123_1718625065046.jpg",
-    publishedAt: "2024-06-17T11:58:16Z",
-    content:
-      "Alia Bhatt and Ranbir Kapoor are not shy about showing their love for their daughter, Raha Kapoor. Alia recently posted a heartwarming picture of Raha walking with Ranbir, on Instagram. The post rece… [+2306 chars]",
-  },
-  {
-    source: {
-      id: "cnn",
-      name: "CNN",
-    },
-    author: "Simone McCarthy, Anna Chernova",
-    title:
-      "Russia’s Putin to visit North Korea in rare trip as anti-West alignment deepens - CNN International",
-    description:
-      "Vladimir Putin is set to travel to North Korea this week, the Kremlin said Monday, in the Russian president’s first visit to the country in more than two decades – and the latest sign of a deepening alignment that’s raised widespread international concern.",
-    url: "https://www.cnn.com/2024/06/17/asia/north-korea-russia-putin-visit-intl-hnk/index.html",
-    urlToImage:
-      "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-1662045038.jpg?c=16x9&q=w_800,c_fill",
-    publishedAt: "2024-06-17T11:36:00Z",
-    content:
-      "Vladimir Putin is set to travel to North Korea for a two-day visit starting Tuesday, the Kremlin said, in the Russian presidents first trip to the country in more than two decades and the latest sign… [+5773 chars]",
-  },
-  {
-    source: {
-      id: "google-news",
-      name: "Google News",
-    },
-    author: "BBC.com",
-    title:
-      "Kanchenjungha Express: Fifteen killed in India train collision - BBC.com",
+      "Assam: Ayushmita Hazarika from Delhi Public School Guwahati wins national scholarship in Kathak",
+    link: "https://www.sentinelassam.com/cities/guwahati-city/assam-ayushmita-hazarika-from-delhi-public-school-guwahati-wins-national-scholarship-in-kathak",
+    keywords: null,
+    creator: ["Sentinel Digital Desk"],
+    video_url: null,
     description: null,
-    url: "https://news.google.com/rss/articles/CBMiLmh0dHBzOi8vd3d3LmJiYy5jb20vbmV3cy9hcnRpY2xlcy9jMGtreXZxMDgxd2_SATJodHRwczovL3d3dy5iYmMuY29tL25ld3MvYXJ0aWNsZXMvYzBra3l2cTA4MXdvLmFtcA?oc=5",
-    urlToImage: null,
-    publishedAt: "2024-06-17T11:26:15Z",
-    content: null,
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:48:55",
+    image_url:
+      "https://media.assettype.com/sentinelassam-english%2F2024-06%2Fe1d9ac50-d97e-4c2c-8731-ef3ff3191641%2Fashm.png?w=480&auto=format%2Ccompress&fit=max",
+    source_id: "sentinel",
+    source_priority: 177615,
+    source_url: "https://www.sentinelassam.com",
+    source_icon: "https://i.bytvi.com/domain_icons/sentinel.jpg",
+    language: "english",
+    country: ["india"],
+    category: ["top"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: null,
-      name: "NDTV News",
-    },
-    author: null,
+    article_id: "60c5e1295ec14d1af8577bd301f1905b",
     title:
-      "Opposition To Get A Leader In Lok Sabha, But It May Not Be Rahul Gandhi - NDTV",
-    description:
-      "Congress's Rahul Gandhi, widely expected to shoulder the responsibilities of the Leader of the Opposition in the 18th Lok Sabha, is not inclined to take up the post, sources in the party have confided.",
-    url: "https://www.ndtv.com/india-news/lop-rahul-gandhi-opposition-gets-a-leader-in-lok-sabha-but-it-may-not-be-rahul-gandhi-5909118",
-    urlToImage:
-      "https://c.ndtvimg.com/2024-06/bp0t5ado_rahul-gandhi_625x300_15_June_24.jpg?im=FaceCrop,algorithm=dnn,width=1200,height=738?ver-20240616.100",
-    publishedAt: "2024-06-17T11:21:14Z",
-    content:
-      "Rahul Gandhi has also decided to represent Sonia Gandhi's constituency, Raebareli, in parliament.\r\nNew Delhi: Congress's Rahul Gandhi, widely expected to shoulder the responsibilities of the Leader o… [+2024 chars]",
-  },
-  {
-    source: {
-      id: null,
-      name: "Hindustan Times",
-    },
-    author: "HT Sports Desk",
-    title:
-      "'Virat Kohli failed, so what? You are leading Pakistan...': Babar Azam mercilessly slammed in hot-headed rant - Hindustan Times",
-    description:
-      "Pakistan were eliminated from the group stage of the T20 World Cup, ending their campaign with a scratchy win over Ireland. | Crickit",
-    url: "https://www.hindustantimes.com/cricket/virat-kohli-failed-so-what-you-are-leading-pakistan-babar-azam-mercilessly-slammed-in-hot-headed-rant-101718618665872.html",
-    urlToImage:
-      "https://www.hindustantimes.com/ht-img/img/2024/06/17/1600x900/CRI-SPO-PAKISTAN-V-CANADA-ICC-MEN-S-T20-CRICKET-WO_1718622086376_1718622086825.jpg",
-    publishedAt: "2024-06-17T11:02:37Z",
-    content:
-      "Pakistan were eliminated from the group stage of the T20 World Cup last week, following the losses to the United States and India. The side's survival in the edition depended on Ireland's win over th… [+2388 chars]",
-  },
-  {
-    source: {
-      id: null,
-      name: "India Today",
-    },
-    author: "Ankita Garg",
-    title:
-      "iPhone 15 Pro and 15 Pro Max price drops in India, only devices eligible to receive Apple Intelligence - India Today",
-    description:
-      "The iPhone 15 Pro is now available at a discounted price of Rs 126990 on Vijay Sales down from its original price of Rs 134900 There is an extra Rs 3000 discount as well on select bank offers which will effectively drop the price to Rs 123990 Read on to know …",
-    url: "https://www.indiatoday.in/technology/news/story/iphone-15-pro-and-15-pro-max-price-cut-in-india-only-devices-eligible-to-receive-apple-intelligence-2554295-2024-06-17",
-    urlToImage:
-      "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202406/iphone-15-pro-max-291834181-16x9_3.png?VersionId=HBPbOChX5mVluIFv9VNhe6IRw9wd3OMy",
-    publishedAt: "2024-06-17T10:47:14Z",
-    content:
-      "The prices of the iPhone 15 Pro and iPhone 15 Pro Max have been reduced on select online channels. These models, now more affordable, are also set to be the only devices to receive the recently annou… [+2902 chars]",
-  },
-  {
-    source: {
-      id: "the-times-of-india",
-      name: "The Times of India",
-    },
-    author: "TOI Lifestyle Desk",
-    title:
-      "Common medications that can increase risk of dehydration during intense heatwave (here's what to do) - The Times of India",
-    description:
-      "Certain medications during heat waves can increase dehydration risk, especially for those with chronic conditions or the elderly. Understanding and ma",
-    url: "https://timesofindia.indiatimes.com/life-style/health-fitness/health-news/common-medications-that-can-increase-risk-of-dehydration-during-intense-heatwave-heres-what-to-do/articleshow/111056291.cms",
-    urlToImage:
-      "https://static.toiimg.com/thumb/msid-111057114,width-1070,height-580,imgsize-600254,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
-    publishedAt: "2024-06-17T10:30:00Z",
-    content: null,
-  },
-  {
-    source: {
-      id: null,
-      name: "Livemint",
-    },
-    author: "Livemint",
-    title:
-      "Mumbai North West LS seat row: Shiv Sena (UBT) to approach court, says 'we have won the seat' | Mint - Mint",
-    description:
-      "Shiv Sena leaders plan to approach Supreme Court over Lok Sabha seat lost by 48 votes. They insist winning candidate Ravindra Waikar should be stopped from taking oath.",
-    url: "https://www.livemint.com/politics/news/mumbai-north-west-ls-seat-row-shiv-sena-ubt-to-approach-court-aaditya-thackeray-ravindra-waikar-amol-kirtikar-11718619129689.html",
-    urlToImage:
-      "https://www.livemint.com/lm-img/img/2024/06/17/1600x900/PTI06-17-2024-000203B-0_1718629618361_1718630295566.jpg",
-    publishedAt: "2024-06-17T10:18:45Z",
-    content:
-      "Leaders from the Shiv Sena (UBT) have announced their plans to approach the Supreme Court over a Lok Sabha seat lost by 48 votes. The Uddhav Thackeray-led party insisted that winning candidate Ravind… [+2596 chars]",
-  },
-  {
-    source: {
-      id: null,
-      name: "Hindustan Times",
-    },
-    author: "HT News Desk",
-    title:
-      "Israel-Hamas war: Benjamin Netanyahu disbands war cabinet after key partner exits - Hindustan Times",
-    description:
-      "The war cabinet was created on October 11 to manage the country's military campaigns against Hamas and Hezbollah | Latest News India",
-    url: "https://www.hindustantimes.com/india-news/israelhamas-war-benjamin-netanyahu-disbands-war-cabinet-after-key-partner-exits-101718614084282.html",
-    urlToImage:
-      "https://www.hindustantimes.com/ht-img/img/2024/06/17/1600x900/ISRAEL-POLITICS--5_1703688213979_1718617248742.JPG",
-    publishedAt: "2024-06-17T09:58:00Z",
-    content:
-      "Israeli Prime Minister Benjamin Netanyahu has dissolved the six-member war cabinet which was created on October 11 to manage the country's military campaigns against Hamas and Hezbollah, Reuters repo… [+2085 chars]",
-  },
-  {
-    source: {
-      id: null,
-      name: "The Indian Express",
-    },
-    author: "The Indian Express",
-    title:
-      "IAS officer transferred day after demolition of 2 sheds outside former CM Jagan Reddy’s home - The Indian Express",
+      "'Whether I will contest or not will be party's decision': CPI's Annie Raja on Wayanad by-poll",
+    link: "https://timesofindia.indiatimes.com/india/whether-i-will-contest-or-not-will-be-partys-decision-cpis-annie-raja-on-wayanad-by-poll/articleshow/111073032.cms",
+    keywords: null,
+    creator: null,
+    video_url: null,
     description: null,
-    url: "https://indianexpress.com/article/cities/hyderabad/ias-officer-transferred-after-demolition-of-sheds-outside-jagan-reddys-home-9397428/",
-    urlToImage: null,
-    publishedAt: "2024-06-17T09:48:34Z",
-    content: null,
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:48:02",
+    image_url:
+      "https://static.toiimg.com/photo/msid-111073083,imgsize-1369907.cms",
+    source_id: "toi",
+    source_priority: 391,
+    source_url: "https://timesofindia.indiatimes.com",
+    source_icon: "https://i.bytvi.com/domain_icons/toi.png",
+    language: "english",
+    country: ["india"],
+    category: ["top"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: "google-news",
-      name: "Google News",
-    },
-    author: "NDTV",
+    article_id: "c9ffc65125cb78ff62080f8130cf41d7",
     title:
-      '"Justice Different From Friendship": Actor Kiccha Sudeep On Darshan Case - NDTV',
-    description: null,
-    url: "https://news.google.com/rss/articles/CBMingFodHRwczovL3d3dy5uZHR2LmNvbS9pbmRpYS1uZXdzL2RhcnNoYW4tdGhvb2d1ZGVlcGEtcGF2aXRocmEtZ293ZGEta2ljY2hhLXN1ZGVlcC1qdXN0aWNlLWRpZmZlcmVudC1mcm9tLWZyaWVuZHNoaXAtYWN0b3Ita2ljY2hhLXN1ZGVlcC1vbi1kYXJzaGFuLWNhc2UtNTkwODM5NdIBAA?oc=5",
-    urlToImage: null,
-    publishedAt: "2024-06-17T09:36:50Z",
-    content: null,
-  },
-  {
-    source: {
-      id: null,
-      name: "NDTV News",
-    },
-    author: "NDTV Sports Desk",
-    title:
-      "'Ramiz Raja To Replace Babar Azam...': Former India Cricketer's Witty Idea For New Pakistan Captain After T20 World Cup Exit | Cricket News - NDTV Sports",
+      "WATCH: Girl Dies After Car Falls Into Ditch While Filming Reel In Maharashtra",
+    link: "https://news24online.com/india/watch-girl-dies-after-car-falls-into-ditch-while-filming-reel-in-maharashtra/288605/",
+    keywords: [
+      "top news",
+      "chhatrapati sambhaji nagar",
+      "maharashtra",
+      "india",
+    ],
+    creator: ["Aniket Raj"],
+    video_url: null,
     description:
-      "Pakistan crashed out in the group stage of the 2024 T20 World Cup, after losses to USA and India.",
-    url: "https://sports.ndtv.com/t20-world-cup-2024/ramiz-raja-to-replace-babar-azam-former-india-cricketers-witty-idea-for-new-pakistan-captain-after-t20-world-cup-exit-5901892",
-    urlToImage:
-      "https://c.ndtvimg.com/2024-06/erva6ig_babar-azam-afp_625x300_06_June_24.jpg?im=FitAndFill,algorithm=dnn,width=1200,height=675",
-    publishedAt: "2024-06-17T09:34:51Z",
-    content:
-      "Former India cricketer Sanjay Manjrekar joked that Babar Azam should be replaced by former Pakistan cricketer Ramiz Raja as captain. Speaking on Star Sports, Manjrekar came up with the witty idea in … [+1682 chars]",
+      "In a tragic incident in Maharashtra, a young woman died after accidentally pressing the accelerator in reverse gear while shooting a video, causing her car to crash through a crash barrier and fall into a ditch near Chhatrapati Sambhaji Nagar. The post WATCH: Girl Dies After Car Falls Into Ditch While Filming Reel In Maharashtra appeared first on News24.",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:48:00",
+    image_url:
+      "https://news24online.com/wp-content/uploads/2024/06/TWITER-VIDEO-.jpg",
+    source_id: "news24online",
+    source_priority: 549589,
+    source_url: "https://news24online.com",
+    source_icon: "https://i.bytvi.com/domain_icons/news24online.png",
+    language: "english",
+    country: ["india"],
+    category: ["top"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: null,
-      name: "Ahmedabadmirror.com",
-    },
-    author: null,
+    article_id: "e6cbb891a8c8e9f12a4a2c184b57927d",
     title:
-      "Earth's inner core slowing down 'unambiguously': Study - Ahmedabad Mirror",
-    description: "Earth’s inner core slowing down ‘unambiguously’: Study",
-    url: "https://www.ahmedabadmirror.com/earths-inner-core-slowing-down-unambiguously-study/81869175.html",
-    urlToImage:
-      "https://media.ahmedabadmirror.com/am/uploads/mediaGallery/image/1718570470100.jpg-org",
-    publishedAt: "2024-06-17T09:34:08Z",
-    content: null,
-  },
-  {
-    source: {
-      id: null,
-      name: "CNBCTV18",
-    },
-    author: "Hormaz Fatakia",
-    title:
-      "Trade Setup for June 18: Can the Nifty cross 24,000 before the June series expiry? - CNBCTV18",
+      "Budget 2024: Continuity in more ways than one in FM's seventh Budget",
+    link: "https://www.business-standard.com/budget/news/budget-2024-continuity-in-more-ways-than-one-in-fms-seventh-budget-124061800130_1.html",
+    keywords: null,
+    creator: null,
+    video_url: null,
     description:
-      "For now, the action remains stock specific as the Nifty and the Nifty Bank both have important levels to cross before they head for the next leg of their rally on the upside.",
-    url: "https://www.cnbctv18.com/market/trade-setup-for-june-18-nifty-key-levels-banks-midcap-iifl-fin-lic-zomato-ongc-share-price-19429435.htm",
-    urlToImage:
-      "https://images.cnbctv18.com/uploads/2023/08/TRADE_SETUP_BG.jpg?im=FitAndFill,width=500,height=300",
-    publishedAt: "2024-06-17T09:30:44Z",
-    content:
-      "The Nifty is in consolidation mode. But its a consolidation that is also slowly taking the index higher. The week gone by saw the index gain in four out of the five trading sessions. It first surpass… [+7847 chars]",
+      "Will there be tax breaks in the Union Budget 2024? Will there be welfare? Will there be fiscal consolidation? Budget Watch keeps a tab",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:47:17",
+    image_url:
+      "https://bsmedia.business-standard.com/_media/bs/img/article/2024-06/14/thumb/fitandfill/400X400/1718341882-676.jpg",
+    source_id: "business-standard",
+    source_priority: 9158,
+    source_url: "https://www.business-standard.com",
+    source_icon: "https://i.bytvi.com/domain_icons/business-standard.png",
+    language: "english",
+    country: ["india"],
+    category: ["top"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: null,
-      name: "India Today",
-    },
-    author: "India Today News Desk",
+    article_id: "91e29d56f7c4835daad622413ab7a37c",
     title:
-      "Air India passenger finds blade in his meal, airline issues statement - India Today",
+      "NEET PG 2024 Admit Card to be out today on natboard.edu.in, here's how to download hall tickets",
+    link: "https://www.hindustantimes.com/education/competitive-exams/neet-pg-2024-admit-card-to-be-out-today-on-natboard-edu-in-heres-how-to-download-hall-tickets-101718681316506.html",
+    keywords: ["education"],
+    creator: null,
+    video_url: null,
     description:
-      "Journalist Mathures Paul who was on board flight AI 175 on June 9 took to social media to share his experience stating he found the blade in a fig chaat dish",
-    url: "https://www.indiatoday.in/india/story/air-india-passenger-finds-blade-in-his-meal-airline-confirms-statement-foreign-object-2554205-2024-06-17",
-    urlToImage:
-      "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202406/air-india-food-blade-174611912-16x9_0.jpg?VersionId=REX9VmdL3rJRRDYszI2J_oZJhGy2fNjq",
-    publishedAt: "2024-06-17T08:49:39Z",
-    content:
-      "Air India is investigating after a passenger claimed he found a metal blade in their in-flight meal on a recent flight from Bengaluru to San Francisco. Journalist Mathures Paul, who was on board flig… [+1847 chars]",
+      "Candidates will be informed through SMS/Email alerts and website notices regarding the availability of the admit card on the NBEMS website.",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:47:09",
+    image_url:
+      "https://www.hindustantimes.com/ht-img/img/2024/06/18/1600x900/IMG-20240616-WA0033_1718512979581_1718682273942.jpg",
+    source_id: "hindustantimes",
+    source_priority: 933,
+    source_url: "http://www.hindustantimes.com",
+    source_icon: "https://i.bytvi.com/domain_icons/hindustantimes.png",
+    language: "english",
+    country: ["india"],
+    category: ["science"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: "the-times-of-india",
-      name: "The Times of India",
-    },
-    author: "TOI News Desk",
+    article_id: "92420f51e759fd1448a50817be2e3b42",
     title:
-      "Pope-Modi picture: Congress issues apology, but targets PM - The Times of India",
+      "Taapsee Pannu says she got into Bollywood because of her resemblance with Preity Zinta: ‘I had to live up to that’",
+    link: "https://www.hindustantimes.com/entertainment/bollywood/taapsee-pannu-says-she-got-into-bollywood-because-of-her-resemblance-with-preity-zinta-101718679897300.html",
+    keywords: ["entertainment"],
+    creator: null,
+    video_url: null,
     description:
-      "India News: NEW DELHI: The Kerala Congress has apologized for a picture shared by its state unit featuring Prime Minister Narendra Modi with Pope Francis at the G.",
-    url: "https://timesofindia.indiatimes.com/india/pope-modi-picture-congress-issues-apology-but-targets-pm/articleshow/111055330.cms",
-    urlToImage:
-      "https://static.toiimg.com/thumb/msid-111055662,width-1070,height-580,imgsize-1228947,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
-    publishedAt: "2024-06-17T08:37:00Z",
-    content: null,
+      "Taapsee Pannu joined Shikhar Dhawan on his chat show to talk about her career in films, during which she shared how she shifted from Telugu films to Bollywood.",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:47:06",
+    image_url:
+      "https://www.hindustantimes.com/ht-img/img/2024/06/18/1600x900/taapsee_1718680373555_1718680373851.jpg",
+    source_id: "hindustantimes",
+    source_priority: 933,
+    source_url: "http://www.hindustantimes.com",
+    source_icon: "https://i.bytvi.com/domain_icons/hindustantimes.png",
+    language: "english",
+    country: ["india"],
+    category: ["entertainment"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: null,
-      name: "India Today",
-    },
-    author: "India Today News Desk",
+    article_id: "b4e8e2ba624ee896a141ddf7f9e3b023",
     title:
-      "India dissociates from Swiss peace summit document on Ukraine, no Russia at meet - India Today",
+      "Akash Ambani spotted driving rare Rs 105000000 Ferrari SUV without wearing seatbelt, netizens say 'ameer log...'",
+    link: "https://www.dnaindia.com/automobile/report-akash-ambani-spotted-driving-rare-rs-105000000-ferrari-suv-without-wearing-seatbelt-netizens-say-ameer-log-3093799",
+    keywords: ["automobile", "business"],
+    creator: ["Ayushmann Chawla"],
+    video_url: null,
     description:
-      "India said it did not sign a joint communique at a Switzerland-hosted summit on peace in Ukraine taking the stand that all parties involved in the conflict need to be part of the negotiations",
-    url: "https://www.indiatoday.in/india/story/india-opts-out-of-ukraine-declaration-at-swiss-peace-summit-as-russia-stays-away-2554184-2024-06-17",
-    urlToImage:
-      "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202406/swiss-peace-summit-on-ukraine-172105432-16x9_0.jpg?VersionId=S4nDqdzqJCM.0ux5AKIOzGjqvi0JbNWO",
-    publishedAt: "2024-06-17T08:21:23Z",
-    content:
-      "India abstained from signing the joint communique on peace in Ukraine during a summit hosted by Switzerland. The decision came as Russia chose not to attend the summit, dismissing it as a “waste of t… [+1894 chars]",
+      "Akash Ambani was spotted driving a rare Rs 10.5 crore Ferrari SUV, however the son of India's richest man was not wearing a seatbelt.",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:47:00",
+    image_url:
+      "https://cdn.dnaindia.com/sites/default/files/styles/third/public/2024/06/18/2638262-akash-ambani.jpg",
+    source_id: "dnaindia",
+    source_priority: 18388,
+    source_url: "https://www.dnaindia.com",
+    source_icon: null,
+    language: "english",
+    country: ["india"],
+    category: ["business"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
   {
-    source: {
-      id: "the-times-of-india",
-      name: "The Times of India",
-    },
-    author: "TOI Entertainment Desk",
+    article_id: "1c6c94e3f8a4dd2bb47a7974f728b4b1",
     title:
-      "Amitabh Bachchan waits patiently as there's delay in 'Kalki 2898 AD' song release with Prabhas and Diljit - TOI Etimes",
+      "Bengal train collision: Mamata blames Centre for negligence towards Railways",
+    link: "https://telanganatoday.com/bengal-train-collision-mamata-blames-centre-for-negligence-towards-railways",
+    keywords: [
+      "mamata banerjee",
+      "train collision",
+      "express train",
+      "bengal train accident",
+      "train accident",
+      "news",
+      "india",
+      "kanchanjungha",
+      "west bengal",
+      "darjeeling",
+    ],
+    creator: ["ANI"],
+    video_url: null,
     description:
-      "Director Nag Ashwin thanks Amitabh Bachchan for being so patient as the actor tweets he's waiting for the release of 'Bhairava Anthem', featuring Dilj",
-    url: "https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/amitabh-bachchan-waits-patiently-as-theres-delay-in-kalki-2898-ad-song-release-with-prabhas-and-diljit-dosanjh-director-nag-ashwin-responds/articleshow/111055335.cms",
-    urlToImage:
-      "https://static.toiimg.com/thumb/msid-111055359,width-1070,height-580,imgsize-52698,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
-    publishedAt: "2024-06-17T08:21:00Z",
-    content: null,
+      "After accident, Kanchanjungha Express completes restoration, reaches Sealdah station in Kolkata",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:46:51",
+    image_url:
+      "https://cdn.telanganatoday.com/wp-content/uploads/2024/06/Train-accident-768x450.jpg",
+    source_id: "telanganatoday",
+    source_priority: 63887,
+    source_url: "https://telanganatoday.com",
+    source_icon: "https://i.bytvi.com/domain_icons/telanganatoday.png",
+    language: "english",
+    country: ["india"],
+    category: ["top"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
+  },
+  {
+    article_id: "a89fda7ac219501e861d8abe981b2b95",
+    title:
+      "BRS govt Chhattisgarh PPA led to Rs 6,000 crore loss for Telangana: Officials",
+    link: "https://timesofindia.indiatimes.com/city/hyderabad/brs-govt-chhattisgarh-ppa-led-to-rs-6000-crore-loss-for-telangana-officials/articleshow/111072992.cms",
+    keywords: null,
+    creator: ["Koride Mahesh"],
+    video_url: null,
+    description:
+      "Telangana officials refute ex-CM K Chandrasekhar Rao's claims on power purchase agreement with Chhattisgarh, stating a Rs 6,000 crore loss. The PPA, not approved by TSERC, led to extra expenses of Rs 2,083 crore for power supply shortages. KCR criticizes CoI and former CJ of Patna HC. Dispute over dues between Telangana and Chhattisgarh.",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:46:33",
+    image_url:
+      "https://static.toiimg.com/photo/msid-111073063,imgsize-61210.cms",
+    source_id: "toi",
+    source_priority: 391,
+    source_url: "https://timesofindia.indiatimes.com",
+    source_icon: "https://i.bytvi.com/domain_icons/toi.png",
+    language: "english",
+    country: ["india"],
+    category: ["top"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
+  },
+  {
+    article_id: "4d94b1df82fac0389378b5b072c7bc96",
+    title: "BTS Star Jimin Announces Second Solo Album Muse; Teaser Video Out",
+    link: "https://www.news18.com/movies/bts-star-jimin-announces-second-solo-album-muse-teaser-video-out-8935847.html",
+    keywords: ["movies"],
+    creator: null,
+    video_url: null,
+    description:
+      "After making his debut as a solo artist last year, Jimin is set to release his second solo album titled Muse in July.",
+    content: "ONLY AVAILABLE IN PAID PLANS",
+    pubDate: "2024-06-18 03:46:21",
+    image_url:
+      "https://images.news18.com/ibnlive/uploads/2024/06/untitled-design-2024-06-18t091546.033-2024-06-844c6abe8923ce0b09ce7b615f60997c-3x2.png",
+    source_id: "news18",
+    source_priority: 6644,
+    source_url: "https://www.news18.com",
+    source_icon: "https://i.bytvi.com/domain_icons/news18.png",
+    language: "english",
+    country: ["india"],
+    category: ["entertainment"],
+    ai_tag: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    sentiment_stats: "ONLY AVAILABLE IN PROFESSIONAL AND CORPORATE PLANS",
+    ai_region: "ONLY AVAILABLE IN CORPORATE PLANS",
+    ai_org: "ONLY AVAILABLE IN CORPORATE PLANS",
   },
 ];
 const HomePage = () => {
-  const [data, setData] = useState(yeah);
+  const { data, isLoading, error } = useFetch(url);
   console.log(data);
-
+  if (error) {
+    return <h2>{error.message}</h2>;
+  } else if (isLoading) {
+    return <h2>Loading....</h2>;
+  }
   return (
     <div className="homepage-wrapper">
-      {data.map((article) => (
+      {yeah?.map((article) => (
         <Article key={article.title} article={article} />
       ))}
     </div>
@@ -341,12 +308,21 @@ const HomePage = () => {
 };
 
 const Article = ({ article }) => {
-  if (article.urlToImage === null) return null;
+  // if (article.image_url === null) return null;
   return (
     <div className="article-wrapper">
       <h2>{article.title}</h2>
-      <img src={article.urlToImage} alt="article" />
-      <p>{article.description}</p>
+      <img src={article.image_url} alt="article" />
+      <p>
+        {article.description && (
+          <span>{article.description?.slice(0, 300)}</span>
+        )}
+        <span>
+          <a target="_blank" rel="noopener noreferrer" href={article.link}>
+            Read More
+          </a>
+        </span>
+      </p>
     </div>
   );
 };
