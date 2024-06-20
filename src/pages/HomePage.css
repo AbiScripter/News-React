@@ -16,6 +16,7 @@
   background: var(--accent);
 }
 
+/* for tab and mobile devices */
 @media (width<776px) {
   .categories-wrapper {
     gap: 0.1rem;

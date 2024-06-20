@@ -26,6 +26,7 @@ button {
   margin-top: 2rem;
 }
 
+/* for mobile devices */
 @media (width<450px) {
   .articles-wrapper {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

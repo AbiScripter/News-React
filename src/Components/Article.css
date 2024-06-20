@@ -13,16 +13,11 @@
   position: relative;
   padding: 20px;
   border-radius: 8px;
-  color: white; /* Ensure text is readable against the background */
+  color: white;
 }
 
 .article-overlay {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Optional: Add an overlay for better contrast */
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 20px;
   border-radius: 8px;
 }
@@ -46,10 +41,10 @@
 }
 
 .article-content a {
-  color: #fff; /* Ensure the link stands out */
+  color: #fff;
   text-decoration: underline;
 }
 
 .article-content a:hover {
-  color: #ddd; /* Slightly change color on hover */
+  color: #ddd;
 }
