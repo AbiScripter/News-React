@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { NavLink } from "react-router-dom";
-import { addSearchArticles } from "../Slices/SearchSlice";
+import { addSearchArticles, getNewSearchArticles } from "../Slices/SearchSlice";
 import { updateSearchNextPageId } from "../Slices/SearchPageSlice";
 import { updateSearchQuery } from "../Slices/SearchQuerySlice";
 import "./SearchPage.css";
+import { fullHeart, emptyHeart } from "../svgs";
+import { addToLiked } from "../Slices/LikesSlice";
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 // const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
 // https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165&q=pizza
@@ -18,30 +19,31 @@ const SearchPage = () => {
   const searchNextPageId = useSelector(
     (state) => state.searchNextPage.searchNextPageId
   );
-  const searchQuery = useSelector((state) => state.searchQuery.searhQuery);
+  const searchQuery = useSelector((state) => state.searchQuery.searchQuery);
+  const likes = useSelector((state) => state.likes.likes);
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  function handleNext() {
-    handleSearch(searchNextPageId);
+  function getNextPageResults() {
+    let url = `https://newsdata.io/api/1/latest?&language=en&apikey=${API_KEY}&q=${searchQuery}&page=${searchNextPageId}`;
+    fetchData(url, "nextPage");
   }
 
-  function handleSearch(pageId) {
+  function getSearchResults() {
+    console.log(queryRef.current.value);
     dispatch(updateSearchQuery(queryRef.current.value));
-    fetchData(pageId);
+    let url = `https://newsdata.io/api/1/latest?&language=en&apikey=${API_KEY}&q=${queryRef.current.value}`;
+    fetchData(url, "firsttime");
   }
 
-  async function fetchData(pageId) {
-    let url;
-    if (pageId === 1) {
-      url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&q=${
-        searchQuery ? searchQuery : queryRef.current.value
-      }`;
-    } else {
-      url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&q=${searchQuery}&page=${searchNextPageId}`;
-    }
+  function handleLike(articleId) {
+    console.log(articleId);
+    dispatch(addToLiked({ id: articleId }));
+  }
 
+  async function fetchData(url, type) {
     try {
       setIsLoading(true);
       const response = await fetch(url);
@@ -49,10 +51,12 @@ const SearchPage = () => {
         throw new Error("soemething went wrong with searching ");
       }
       const result = await response.json();
-      console.log(result);
-      dispatch(addSearchArticles(result.results));
       dispatch(updateSearchNextPageId(result.nextPage));
-      dispatch(updateSearchQuery(queryRef.current.value));
+      if (type === "firsttime") {
+        dispatch(getNewSearchArticles(result.results));
+      } else {
+        dispatch(addSearchArticles(result.results));
+      }
     } catch (error) {
       setError(error);
     } finally {
@@ -64,25 +68,33 @@ const SearchPage = () => {
     return <h2>Loading....</h2>;
   }
 
-  console.log(searchArticles);
   return (
     <div>
       <div className="search-wrapper">
         <input type="text" ref={queryRef} />
-        <button type="submit" onClick={() => handleSearch(1)}>
+        <button type="submit" onClick={() => getSearchResults()}>
           Search
         </button>
       </div>
-
+      {searchQuery && (
+        <h2 style={{ textAlign: "center" }}>
+          Showing Results for {searchQuery}
+        </h2>
+      )}
       <div className="searchpage-wrapper articles-wrapper">
         {searchArticles.map((article) => (
-          <Article key={article.title} article={article} />
+          <Article
+            key={article.title}
+            article={article}
+            handleLike={handleLike}
+            isLiked={likes.includes(article.article_id)}
+          />
         ))}
       </div>
 
       <div className="load-more-wrapper">
         {searchArticles.length > 0 && (
-          <button className="load more" onClick={handleNext}>
+          <button className="load more" onClick={getNextPageResults}>
             Load More
           </button>
         )}
@@ -91,7 +103,7 @@ const SearchPage = () => {
   );
 };
 
-const Article = ({ article }) => {
+const Article = ({ article, handleLike, isLiked }) => {
   if (article.image_url === null || article.description === null) return null;
   return (
     <>
@@ -108,9 +120,12 @@ const Article = ({ article }) => {
           {/* Optional: Add an overlay for better text contrast */}
           <div className="article-header">
             <h3>{article.title}</h3>
-            {/* <span className="like" onClick={() => handleLike(article.article_id)}>
+            <span
+              className="like"
+              onClick={() => handleLike(article.article_id)}
+            >
               {isLiked ? <span>{fullHeart}</span> : <span>{emptyHeart}</span>}
-            </span> */}
+            </span>
           </div>
           <div className="article-content">
             <p>
