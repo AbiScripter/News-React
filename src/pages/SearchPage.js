@@ -17,7 +17,7 @@ import Loader from "../Components/Loader";
 import Article from "../Components/Article";
 
 // const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
-const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
+const API_KEY = "pub_4690986b89ff2a420d5fc6f766b67a1ba6703";
 // const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
 // https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165&q=pizza
 // https://newsdata.io/api/1/latest?apikey=pub_467660a2d6ac1676468c5d0e34eb47f89252a&q=YOUR-QUERY&page=XXXPPPXXXXXXXXXX

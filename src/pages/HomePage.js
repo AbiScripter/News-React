@@ -13,7 +13,7 @@ import {
 } from "../Slices/CategoryPageSlice";
 import Article from "../Components/Article";
 // const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
-const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
+const API_KEY = "pub_4690986b89ff2a420d5fc6f766b67a1ba6703";
 
 const HomePage = () => {
   const categoryArticles = useSelector(
