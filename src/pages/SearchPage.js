@@ -1,11 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+
+import "./SearchPage.css";
+import { fullHeart, emptyHeart } from "../assets/svgs";
+
 import { addSearchArticles, getNewSearchArticles } from "../Slices/SearchSlice";
 import { updateSearchNextPageId } from "../Slices/SearchPageSlice";
 import { updateSearchQuery } from "../Slices/SearchQuerySlice";
-import "./SearchPage.css";
-import { fullHeart, emptyHeart } from "../svgs";
 import { addToLiked } from "../Slices/LikesSlice";
+import Loader from "../Components/Loader";
+
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 // const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
 // https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165&q=pizza
@@ -46,11 +51,11 @@ const SearchPage = () => {
   async function fetchData(url, type) {
     try {
       setIsLoading(true);
-      const response = await fetch(url);
-      if (!response.ok) {
+      const response = await axios.get(url);
+      if (response.statusText !== "OK") {
         throw new Error("soemething went wrong with searching ");
       }
-      const result = await response.json();
+      const result = response.data;
       dispatch(updateSearchNextPageId(result.nextPage));
       if (type === "firsttime") {
         dispatch(getNewSearchArticles(result.results));
@@ -64,10 +69,11 @@ const SearchPage = () => {
     }
   }
 
-  if (isLoading) {
-    return <h2>Loading....</h2>;
+  if (error) {
+    return <h2>{error.message}</h2>;
+  } else if (isLoading) {
+    return <Loader />;
   }
-
   return (
     <div>
       <div className="search-wrapper">

@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
+  margin-bottom: 0.5rem;
 
   a {
     font-size: 1.2rem;

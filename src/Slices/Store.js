@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ArticleSlice from "./Slices/ArticleSlice";
-import NextPageSlice from "./Slices/NextPageSlice";
-import SearchSlice from "./Slices/SearchSlice";
-import SearchPageSlice from "./Slices/SearchPageSlice";
-import SearchQuerySlice from "./Slices/SearchQuerySlice";
-import LikesSlice from "./Slices/LikesSlice";
+import ArticleSlice from "./ArticleSlice";
+import NextPageSlice from "./NextPageSlice";
+import SearchSlice from "./SearchSlice";
+import SearchPageSlice from "./SearchPageSlice";
+import SearchQuerySlice from "./SearchQuerySlice";
+import LikesSlice from "./LikesSlice";
 
 const store = configureStore({
   reducer: {

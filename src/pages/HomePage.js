@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./HomePage.css";
-// import { useFetch } from "../Utils";
-import { addArticles } from "../Slices/ArticleSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNextPageId } from "../Slices/NextPageSlice";
-import CategoryTabs from "../Categories";
+import axios from "axios";
+import "./HomePage.css";
+import Loader from "../Components/Loader";
+
+import { addArticles } from "../Slices/ArticleSlice";
 import { addToLiked } from "../Slices/LikesSlice";
-import { fullHeart, emptyHeart } from "../svgs";
-// https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165
+import { updateNextPageId } from "../Slices/NextPageSlice";
+import CategoryTabs from "../Components/Categories";
+import { fullHeart, emptyHeart } from "../assets/svgs";
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
-// https://newsdata.io/api/1/latest?apikey=pub_467660a2d6ac1676468c5d0e34eb47f89252a&category=science
 
 const HomePage = () => {
   const articles = useSelector((state) => state.articles.articles);
@@ -23,18 +23,19 @@ const HomePage = () => {
   async function fetchArticles(pageId = 1) {
     let url;
     if (pageId === 1) {
-      url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&country=in&category=${category}`;
+      url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&country=in`;
     } else {
-      url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en&country=in&category=${category}&page=${pageId}`;
+      url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en&category=${category}&page=${pageId}&country=in`;
     }
 
     try {
       setIsLoading(true);
-      const response = await fetch(url);
-      if (!response.ok) {
+      const response = await axios.get(url);
+      console.log(response);
+      if (response.statusText !== "OK") {
         throw new Error("soemething went wrong with searching ");
       }
-      const result = await response.json();
+      const result = response.data;
       console.log(result);
       dispatch(updateNextPageId(result.nextPage));
       dispatch(addArticles({ category: category, payload: result.results }));
@@ -72,7 +73,7 @@ const HomePage = () => {
   if (error) {
     return <h2>{error.message}</h2>;
   } else if (isLoading) {
-    return <h2>Loading....</h2>;
+    return <Loader />;
   }
   return (
     <div>
@@ -109,7 +110,6 @@ const Article = ({ article, handleLike, isLiked }) => {
       }}
     >
       <div className="article-overlay">
-        {/* Optional: Add an overlay for better text contrast */}
         <div className="article-header">
           <h3>{article.title}</h3>
           <span className="like" onClick={() => handleLike(article.article_id)}>
