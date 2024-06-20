@@ -16,6 +16,7 @@ import { addToLiked } from "../Slices/LikesSlice";
 import Loader from "../Components/Loader";
 import Article from "../Components/Article";
 
+// const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 // const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
 // https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165&q=pizza
@@ -80,7 +81,7 @@ const SearchPage = () => {
   return (
     <div>
       <div className="search-wrapper">
-        <input type="text" ref={queryRef} />
+        <input type="text" ref={queryRef} placeholder="Search articles" />
         <button type="submit" onClick={() => getSearchResults()}>
           Search
         </button>
