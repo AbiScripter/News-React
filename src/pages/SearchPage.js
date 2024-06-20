@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSearchArticles } from "../Slices/SearchSlice";
 import { updateSearchNextPageId } from "../Slices/SearchPageSlice";
 import { updateSearchQuery } from "../Slices/SearchQuerySlice";
+import "./SearchPage.css";
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 // const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
 // https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165&q=pizza
@@ -66,16 +67,26 @@ const SearchPage = () => {
   console.log(searchArticles);
   return (
     <div>
-      <input type="text" ref={queryRef} />
-      <button onClick={() => handleSearch(1)}>Search</button>
-      <div className="searchpage-wrapper">
+      <div className="search-wrapper">
+        <input type="text" ref={queryRef} />
+        <button type="submit" onClick={() => handleSearch(1)}>
+          Search
+        </button>
+      </div>
+
+      <div className="searchpage-wrapper articles-wrapper">
         {searchArticles.map((article) => (
           <Article key={article.title} article={article} />
         ))}
       </div>
-      {searchArticles.length > 0 && (
-        <button onClick={handleNext}>next page</button>
-      )}
+
+      <div className="load-more-wrapper">
+        {searchArticles.length > 0 && (
+          <button className="load more" onClick={handleNext}>
+            Load More
+          </button>
+        )}
+      </div>
     </div>
   );
 };
@@ -83,21 +94,43 @@ const SearchPage = () => {
 const Article = ({ article }) => {
   if (article.image_url === null || article.description === null) return null;
   return (
-    <div className="article-wrapper">
-      <h2>{article.title}</h2>
-      <img src={article.image_url} alt="article" />
-      <p>
-        {article.description && (
-          <span>{article.description?.slice(0, 300)}</span>
-        )}
-
-        <span>
-          <a target="_blank" rel="noopener noreferrer" href={article.link}>
-            Read More
-          </a>
-        </span>
-      </p>
-    </div>
+    <>
+      <div
+        className="article-wrapper"
+        style={{
+          backgroundImage: `url(${article.image_url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="article-overlay">
+          {/* Optional: Add an overlay for better text contrast */}
+          <div className="article-header">
+            <h3>{article.title}</h3>
+            {/* <span className="like" onClick={() => handleLike(article.article_id)}>
+              {isLiked ? <span>{fullHeart}</span> : <span>{emptyHeart}</span>}
+            </span> */}
+          </div>
+          <div className="article-content">
+            <p>
+              {article.description && (
+                <span>{article.description?.slice(0, 200)}</span>
+              )}
+              <span>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={article.link}
+                >
+                  Read More
+                </a>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 export default SearchPage;

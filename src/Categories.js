@@ -14,12 +14,12 @@ const CategoryTabs = ({ category, handleCategory }) => {
   ];
 
   return (
-    <div>
+    <div className="categories-wrapper">
       {categories.map((cat) => (
         <div
           onClick={() => handleCategory(cat)}
           key={cat}
-          className={` ${category === cat ? "" : ""}`}
+          className={`category ${category === cat ? "category-active" : ""}`}
         >
           {cat.charAt(0).toUpperCase() + cat.slice(1)}
         </div>

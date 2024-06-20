@@ -6,18 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateNextPageId } from "../Slices/NextPageSlice";
 import CategoryTabs from "../Categories";
 import { addToLiked } from "../Slices/LikesSlice";
+import { fullHeart, emptyHeart } from "../svgs";
 // https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 // https://newsdata.io/api/1/latest?apikey=pub_467660a2d6ac1676468c5d0e34eb47f89252a&category=science
-
-function genRandomId() {
-  let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-  let id = "";
-  for (let i = 0; i < 8; i++) {
-    id += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return id;
-}
 
 const HomePage = () => {
   const articles = useSelector((state) => state.articles.articles);
@@ -85,7 +77,7 @@ const HomePage = () => {
   return (
     <div>
       <CategoryTabs category={category} handleCategory={handleCategory} />
-      <div className="homepage-wrapper">
+      <div className="homepage-wrapper articles-wrapper">
         {articles[category]?.map((article) => (
           <Article
             key={article.title}
@@ -95,7 +87,11 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <button onClick={handleNext}>Next Page</button>
+      <div className="load-more-wrapper">
+        <button className="load more" onClick={handleNext}>
+          Load More
+        </button>
+      </div>
     </div>
   );
 };
@@ -103,21 +99,36 @@ const HomePage = () => {
 const Article = ({ article, handleLike, isLiked }) => {
   if (article.image_url === null || article.description === null) return null;
   return (
-    <div className="article-wrapper">
-      <h2>{article.title}</h2>
-      {isLiked && <p>Liked</p>}
-      <button onClick={() => handleLike(article.article_id)}>Like</button>
-      <img src={article.image_url} alt="article" />
-      <p>
-        {article.description && (
-          <span>{article.description?.slice(0, 300)}</span>
-        )}
-        <span>
-          <a target="_blank" rel="noopener noreferrer" href={article.link}>
-            Read More
-          </a>
-        </span>
-      </p>
+    <div
+      className="article-wrapper"
+      style={{
+        backgroundImage: `url(${article.image_url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="article-overlay">
+        {/* Optional: Add an overlay for better text contrast */}
+        <div className="article-header">
+          <h3>{article.title}</h3>
+          <span className="like" onClick={() => handleLike(article.article_id)}>
+            {isLiked ? <span>{fullHeart}</span> : <span>{emptyHeart}</span>}
+          </span>
+        </div>
+        <div className="article-content">
+          <p>
+            {article.description && (
+              <span>{article.description?.slice(0, 200)}</span>
+            )}
+            <span>
+              <a target="_blank" rel="noopener noreferrer" href={article.link}>
+                Read More
+              </a>
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

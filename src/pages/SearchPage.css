@@ -1,0 +1,10 @@
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0rem;
+
+  input {
+    margin-right: 1rem;
+    border-radius: 5px;
+  }
+}
