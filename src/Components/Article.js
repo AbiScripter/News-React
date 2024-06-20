@@ -9,6 +9,9 @@ const Article = ({ article, handleLike, isLiked }) => {
       className="article-wrapper"
       style={{
         backgroundImage: `url(${article.image_url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div className="article-overlay">
