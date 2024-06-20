@@ -12,59 +12,6 @@ body,
   font-family: "Inter", sans-serif;
 }
 
-.articles-wrapper {
-  display: grid;
-  position: relative;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  grid-auto-rows: minmax(200px, 350px);
-  gap: 1rem;
-  justify-items: center;
-  padding: 20px;
-  border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white; /* Ensure text is readable against the background */
-}
-
-.article-overlay {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Optional: Add an overlay for better contrast */
-  padding: 20px;
-  border-radius: 8px;
-}
-
-.article-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.article-header h3 {
-  margin: 0;
-}
-
-.like {
-  cursor: pointer;
-}
-
-.article-content {
-  margin-top: 10px;
-}
-
-.article-content a {
-  color: #fff; /* Ensure the link stands out */
-  text-decoration: underline;
-}
-
-.article-content a:hover {
-  color: var(--accent); /* Slightly change color on hover */
-}
-
 button {
   padding: 0.2rem 1.5rem;
   cursor: pointer;

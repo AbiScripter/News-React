@@ -1,5 +1,6 @@
 import React from "react";
 import { emptyHeart, fullHeart } from "../assets/svgs";
+import "./Article.css";
 
 const Article = ({ article, handleLike, isLiked }) => {
   if (article.image_url === null || article.description === null) return null;
