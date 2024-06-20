@@ -1,10 +1,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-
 import "./SearchPage.css";
-import { fullHeart, emptyHeart } from "../assets/svgs";
-
 import {
   getNewSearchArticles,
   addSearchArticles,
@@ -18,9 +15,6 @@ import Article from "../Components/Article";
 
 // const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 const API_KEY = "pub_4690986b89ff2a420d5fc6f766b67a1ba6703";
-// const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
-// https://newsdata.io/api/1/latest?apikey=pub_44179f13e7f1d11c54f74ef34d7f2b17b6165&q=pizza
-// https://newsdata.io/api/1/latest?apikey=pub_467660a2d6ac1676468c5d0e34eb47f89252a&q=YOUR-QUERY&page=XXXPPPXXXXXXXXXX
 
 const SearchPage = () => {
   const queryRef = useRef();
@@ -35,11 +29,13 @@ const SearchPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //to get the results when clicked load more
   function getNextPageResults() {
     let url = `https://newsdata.io/api/1/latest?&language=en&apikey=${API_KEY}&q=${searchQuery}&page=${searchPageId}`;
     fetchData(url, "nextPage");
   }
 
+  //to get initial search results
   function getSearchResults() {
     console.log(queryRef.current.value);
     dispatch(updateSearchQuery(queryRef.current.value));
@@ -61,6 +57,9 @@ const SearchPage = () => {
       }
       const result = response.data;
       dispatch(updateSearchPageId(result.nextPage));
+
+      //if data fetched for  first time it updates the state of articles
+      //else ,if load more clicked it add the results to the previously stored article in the state
       if (type === "firsttime") {
         dispatch(getNewSearchArticles(result.results));
       } else {
@@ -73,6 +72,7 @@ const SearchPage = () => {
     }
   }
 
+  //edge cases
   if (error) {
     return <h2>{error.message}</h2>;
   } else if (isLoading) {
@@ -86,6 +86,7 @@ const SearchPage = () => {
           Search
         </button>
       </div>
+      {/* display the searched query */}
       {searchQuery && (
         <h2 style={{ textAlign: "center" }}>
           Showing Results for {searchQuery}

@@ -3,6 +3,7 @@ import { emptyHeart, fullHeart } from "../assets/svgs";
 import "./Article.css";
 
 const Article = ({ article, handleLike, isLiked }) => {
+  //if the article doesn't have image dont render
   if (article.image_url === null || article.description === null) return null;
   return (
     <div

@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./HomePage.css";
 import Loader from "../Components/Loader";
-
 import { addToLiked } from "../Slices/LikesSlice";
 import CategoryTabs from "../Components/Categories";
-import { fullHeart, emptyHeart } from "../assets/svgs";
 import {
   addCategoryArticles,
   updateCategoryPageId,
 } from "../Slices/CategoryPageSlice";
 import Article from "../Components/Article";
+
+//API KEYS
 // const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 const API_KEY = "pub_4690986b89ff2a420d5fc6f766b67a1ba6703";
 
@@ -29,6 +29,8 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [category, setCategory] = useState("top");
 
+  //function to fetcharticles, if it fetches for the first time we put pageid as 1 else put the pageid
+  //this is done to change the url
   async function fetchArticles(pageId = 1) {
     let url;
     if (pageId === 1) {
@@ -46,6 +48,7 @@ const HomePage = () => {
       }
       const result = response.data;
       console.log(result);
+      //updating the ids and articles to the store
       dispatch(updateCategoryPageId(result.nextPage));
       dispatch(
         addCategoryArticles({ category: category, payload: result.results })
@@ -59,6 +62,7 @@ const HomePage = () => {
 
   function handleLike(articleId) {
     console.log(articleId);
+    //update the likes to store
     dispatch(addToLiked({ id: articleId }));
   }
 
@@ -77,6 +81,7 @@ const HomePage = () => {
     }
   }, [category]);
 
+  //boundary cases
   if (error) {
     return <h2>{error.message}</h2>;
   } else if (isLoading) {
