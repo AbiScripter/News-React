@@ -5,11 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import "./SearchPage.css";
 import { fullHeart, emptyHeart } from "../assets/svgs";
 
-import { addSearchArticles, getNewSearchArticles } from "../Slices/SearchSlice";
-import { updateSearchNextPageId } from "../Slices/SearchPageSlice";
-import { updateSearchQuery } from "../Slices/SearchQuerySlice";
+import {
+  getNewSearchArticles,
+  addSearchArticles,
+  updateSearchPageId,
+  updateSearchQuery,
+} from "../Slices/SearchPageSlice";
+
 import { addToLiked } from "../Slices/LikesSlice";
 import Loader from "../Components/Loader";
+import Article from "../Components/Article";
 
 const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 // const url = `https://newsdata.io/api/1/latest?apikey=${API_KEY}&language=en`;
@@ -19,12 +24,10 @@ const API_KEY = "pub_44179f13e7f1d11c54f74ef34d7f2b17b6165";
 const SearchPage = () => {
   const queryRef = useRef();
   const searchArticles = useSelector(
-    (state) => state.searchArticles.searchArticles
+    (state) => state.searchPage.searchArticles
   );
-  const searchNextPageId = useSelector(
-    (state) => state.searchNextPage.searchNextPageId
-  );
-  const searchQuery = useSelector((state) => state.searchQuery.searchQuery);
+  const searchPageId = useSelector((state) => state.searchPage.searchPageId);
+  const searchQuery = useSelector((state) => state.searchPage.searchQuery);
   const likes = useSelector((state) => state.likes.likes);
 
   const dispatch = useDispatch();
@@ -32,7 +35,7 @@ const SearchPage = () => {
   const [error, setError] = useState(null);
 
   function getNextPageResults() {
-    let url = `https://newsdata.io/api/1/latest?&language=en&apikey=${API_KEY}&q=${searchQuery}&page=${searchNextPageId}`;
+    let url = `https://newsdata.io/api/1/latest?&language=en&apikey=${API_KEY}&q=${searchQuery}&page=${searchPageId}`;
     fetchData(url, "nextPage");
   }
 
@@ -56,7 +59,7 @@ const SearchPage = () => {
         throw new Error("soemething went wrong with searching ");
       }
       const result = response.data;
-      dispatch(updateSearchNextPageId(result.nextPage));
+      dispatch(updateSearchPageId(result.nextPage));
       if (type === "firsttime") {
         dispatch(getNewSearchArticles(result.results));
       } else {
@@ -109,49 +112,4 @@ const SearchPage = () => {
   );
 };
 
-const Article = ({ article, handleLike, isLiked }) => {
-  if (article.image_url === null || article.description === null) return null;
-  return (
-    <>
-      <div
-        className="article-wrapper"
-        style={{
-          backgroundImage: `url(${article.image_url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="article-overlay">
-          {/* Optional: Add an overlay for better text contrast */}
-          <div className="article-header">
-            <h3>{article.title}</h3>
-            <span
-              className="like"
-              onClick={() => handleLike(article.article_id)}
-            >
-              {isLiked ? <span>{fullHeart}</span> : <span>{emptyHeart}</span>}
-            </span>
-          </div>
-          <div className="article-content">
-            <p>
-              {article.description && (
-                <span>{article.description?.slice(0, 200)}</span>
-              )}
-              <span>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={article.link}
-                >
-                  Read More
-                </a>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
 export default SearchPage;
