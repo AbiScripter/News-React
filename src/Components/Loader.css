@@ -8,7 +8,7 @@
   width: 32px;
   height: 32px;
   color: #e5e7eb;
-  fill: #2563eb;
+  fill: var(--accent);
   animation: spin 1s linear infinite;
 }
 

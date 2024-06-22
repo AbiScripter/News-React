@@ -6,7 +6,7 @@ import "./Layout.css";
 const Layout = () => {
   return (
     <div>
-      <h1>India Insight</h1>
+      <h1 className="app-title">India Times</h1>
       <Navbar />
       <Outlet />
     </div>
